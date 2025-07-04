@@ -1,0 +1,27 @@
+name: CI/CD Deploy with HTML Test
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run simple test
+      run: |
+        echo "✅ Checking if HTML has <title>..."
+        grep -q "<title>" index.html
+
+    - name: Upload static files
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: .
+
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v2
+
